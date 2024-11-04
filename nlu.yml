@@ -1,0 +1,23 @@
+version: "3.0"
+
+nlu:
+  - intent: manage_repositories
+    examples: |
+      - I want to manage my GitHub repositories
+      - Can you help me with GitHub?
+      - I need to create a new repository
+
+  - intent: inform
+    examples: |
+      - create
+      - list
+      - delete
+      - I want to list my repositories
+      - Please create a repository
+      - Delete my repository
+
+  - intent: request_repo_name
+    examples: |
+      - The name of the repo is [MyRepo](repo_name)
+      - Create a repo called [NewRepo](repo_name)
+      - I want to delete [OldRepo](repo_name)
