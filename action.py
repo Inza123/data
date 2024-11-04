@@ -11,7 +11,7 @@ class ActionManageRepositories(Action):
         repo_name = tracker.get_slot("repo_name")
         token = "yhijidoquejiodijoeqijofjejiofhjojio"  # Replace with your GitHub token
         headers = {'Authorization': f'token {token}'}
-        username = "Inza123"  # Your GitHub username
+        username = "hello"  # Your GitHub username
 
         if action == "list":
             response = requests.get(f'https://api.github.com/users/{username}/repos', headers=headers)
