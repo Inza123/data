@@ -1,0 +1,31 @@
+version: "3.0"
+
+name: "github_management_bot"
+
+flows:
+  manage_github_repositories:
+    description: Manage GitHub repositories flow.
+    steps:
+      - collect: action
+        description: "What action would you like to perform? (create, list, delete)"
+        next:
+          - if: slots.action == "list"
+            then:
+              - action: action_manage_repositories
+              - action: utter_list_repos
+                next: END
+          - if: slots.action == "create"
+            then:
+              - collect: repo_name
+              - action: action_manage_repositories
+              - action: utter_repo_created
+                next: END
+          - if: slots.action == "delete"
+            then:
+              - collect: repo_name
+              - action: action_manage_repositories
+              - action: utter_repo_deleted
+                next: END
+          - else:
+              - action: utter_invalid_action
+                next: END
