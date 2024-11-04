@@ -1,0 +1,74 @@
+version: "3.0"
+
+name: "github_management_bot"
+
+intents:
+  - manage_repositories
+  - inform
+  - request_repo_name
+  - out_of_scope
+
+entities:
+  - repo_name
+
+slots:
+  action:
+    type: text
+    influence_conversation: false
+  repo_name:
+    type: text
+    influence_conversation: false
+
+responses:
+  utter_ask_action:
+    - text: "What action would you like to perform with your GitHub repositories? (create, list, delete)"
+  utter_ask_repo_name:
+    - text: "What is the name of the repository?"
+  utter_invalid_action:
+    - text: "I'm sorry, but that's not a valid action."
+  utter_repo_action_success:
+    - text: "The action has been completed successfully."
+  utter_list_repos:
+    - text: "Here is the list of your repositories."
+  utter_repo_deleted:
+    - text: "The repository has been deleted successfully."
+  utter_repo_created:
+    - text: "The repository has been created successfully."
+  utter_default_response:
+    - text: "I'm not sure how to help with that. Can I assist with managing your GitHub repositories?"
+
+actions:
+  - action_manage_repositories
+  - reset_slots
+
+rules:
+  - rule: Manage GitHub Repository - Initial Action
+    steps:
+      - intent: manage_repositories
+      - action: utter_ask_action
+
+  - rule: List Repositories
+    steps:
+      - intent: inform
+      - action: action_manage_repositories
+      - action: utter_list_repos
+
+  - rule: Create Repository
+    steps:
+      - intent: inform
+      - action: utter_ask_repo_name
+      - intent: request_repo_name
+      - action: action_manage_repositories
+      - action: utter_repo_created
+
+  - rule: Delete Repository
+    steps:
+      - intent: inform
+      - action: utter_ask_repo_name
+      - action: action_manage_repositories
+      - action: utter_repo_deleted
+
+  - rule: Default Rule
+    steps:
+      - intent: out_of_scope
+      - action: utter_default_response
